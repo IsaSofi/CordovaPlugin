@@ -22,8 +22,25 @@
 document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
-    // Cordova is now initialized. Have fun!
+    // Cordova is now initialized. Have fun! 
+    document.addEventListener('deviceready', function() {
+      var toggleButton = document.getElementById('toggleButton');
+      var isOn = false;
 
-    console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
-    document.getElementById('deviceready').classList.add('ready');
+      toggleButton.addEventListener('click', function() {
+        if (window.plugins && window.plugins.flashlight) {
+          if (!isOn) {
+            window.plugins.flashlight.switchOn();
+            isOn = true;
+            toggleButton.classList.add('on'); // Agregamos la clase 'on' cuando se enciende la linterna
+          } else {
+            window.plugins.flashlight.switchOff();
+            isOn = false;
+            toggleButton.classList.remove('on'); // Removemos la clase 'on' cuando se apaga la linterna
+          }
+        } else {
+          console.log('El plugin flashlight no está disponible');
+        }
+      });
+    }, false);
 }
